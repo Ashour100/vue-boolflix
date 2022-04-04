@@ -1,16 +1,14 @@
 <template>
   <div id="app">
     <Header @search="assign"/>
-    <h1>{{value}}</h1>
-    <Main/>
+    <Main :results="result" :searchValue="searchValue" />
   </div>
 </template>
 
 <script>
-import Header from './components/header.vue';
+import Header from './components/Header.vue';
 import Main from './components/main.vue';
-// import axios from 'axios';
-
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -20,21 +18,42 @@ export default {
   },
   data:function(){
     return{
-      value:null,
+      searchValue:null,
+      result:null,
+      query:null,
     }
   },
   methods:{
-        // getApiData(){
-        //     axios.get('https://api.themoviedb.org/3/movie/550?api_key=78fc62f1828b567ef5fc7ae26f10d923&query=ritorno+al+futuro')
-            // .then((result)=>{
-            //     this.content=result.data.response;
-            //     console.log(this.content);
-            // })
-        // },
-        assign:function(value){
-          this.value=value;
+        getApiData(){
+            axios.get('https://api.themoviedb.org/3/search/movie?api_key=78fc62f1828b567ef5fc7ae26f10d923&query='+this.searchValue)
+            .then((result)=>{
+              this.result=result.data.results;
+                  console.log(this.result);
+            });
+            console.log(this.searchValue+"searchValue")
         },
-    }
+        assign: function(value){
+          this.searchValue=value;       
+          this.getApiData();
+        },
+        formQuery:function(){
+          if(this.searchValue!=null){
+            let temp=this.searchValue.split(' ');
+            for(let i=0;i<temp;i++){
+              if(i!=temp.length-1)
+                this.searchValue+=temp+"+";
+              else
+                this.searchValue+=temp;  
+            }
+          }
+        }
+  },
+  mounted: function(){
+    this.getApiData();
+  },
+  updated: function(){
+    this.formQuery();
+  }
 }
 </script>
 
