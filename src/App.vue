@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header @search="assign"/>
-    <Main :results="result" :searchValue="searchValue" />
+    <Main :results="allResults" :searchValue="searchValue" />
   </div>
 </template>
 
@@ -19,7 +19,9 @@ export default {
   data:function(){
     return{
       searchValue:null,
-      result:null,
+      movieResult:[],
+      tvResult:[],
+      allResults:null,
       query:null,
     }
   },
@@ -27,9 +29,15 @@ export default {
         getApiData(){
             axios.get('https://api.themoviedb.org/3/search/movie?api_key=78fc62f1828b567ef5fc7ae26f10d923&query='+this.searchValue)
             .then((result)=>{
-              this.result=result.data.results;
-                  console.log(this.result);
+              this.movieResult=result.data.results;
+                  console.log(this.movieResult);
             });
+            axios.get('https://api.themoviedb.org/3/search/tv?api_key=78fc62f1828b567ef5fc7ae26f10d923&query='+this.searchValue)
+            .then((result)=>{
+              this.tvResult=result.data.results;
+                  console.log(this.tvResult);
+            });
+              this.allResults=[...this.movieResult, ...this.tvResult];
             console.log(this.searchValue+"searchValue")
         },
         assign: function(value){
@@ -50,7 +58,7 @@ export default {
   },
   mounted: function(){
     this.getApiData();
-  },
+    },
   updated: function(){
     this.formQuery();
   }
