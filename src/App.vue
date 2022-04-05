@@ -31,6 +31,9 @@ export default {
             .then((result)=>{
               this.movieResult=result.data.results;
                   console.log(this.movieResult);
+            })
+            .catch(()=>{
+              
             });
             axios.get('https://api.themoviedb.org/3/search/tv?api_key=78fc62f1828b567ef5fc7ae26f10d923&query='+this.searchValue)
             .then((result)=>{
@@ -42,8 +45,8 @@ export default {
         },
         assign: function(value){
           this.searchValue=value;
-          if(value!="")      
-          this.getApiData();
+          if(value.trim()!="")
+            this.getApiData();
         },
         formQuery:function(){
           if(this.searchValue!=null){
@@ -57,9 +60,6 @@ export default {
           }
         }
   },
-  // mounted: function(){
-  //   this.getApiData();
-  //   },
   updated: function(){
     this.formQuery();
   }
@@ -70,5 +70,7 @@ export default {
 @import 'assets/scss/style.scss';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-color: $gray-800;
+  min-height:100vh ;
 }
 </style>
