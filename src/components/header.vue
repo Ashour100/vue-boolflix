@@ -5,7 +5,9 @@
             class="form-control me-2 rounded shadow-none" 
             placeholder="Search" 
             v-model="inputTextSearch"
-            @keydown.enter="$emit('search',inputTextSearch)">
+            @keyup="$emit('search',inputTextSearch)"
+            @keydown="$emit('search',inputTextSearch)"
+            >
             <button
             type="button"
             @click="$emit('search',inputTextSearch)"

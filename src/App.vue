@@ -41,7 +41,8 @@ export default {
             console.log(this.searchValue+"searchValue")
         },
         assign: function(value){
-          this.searchValue=value;       
+          this.searchValue=value;
+          if(value!="")      
           this.getApiData();
         },
         formQuery:function(){
@@ -56,9 +57,9 @@ export default {
           }
         }
   },
-  mounted: function(){
-    this.getApiData();
-    },
+  // mounted: function(){
+  //   this.getApiData();
+  //   },
   updated: function(){
     this.formQuery();
   }

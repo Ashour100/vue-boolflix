@@ -1,10 +1,16 @@
 <template>
     <div class="text text-center">
-        <h6 class="px-3">
+        <h6 v-if="film.title" class="px-3">
             {{film.title}}
         </h6>
-        <h6 class="px-3">
+        <h6 v-else class="px-3">
+            {{film.name}}
+        </h6>
+        <h6 v-if="film.original_title" class="px-3">
             {{film.original_title}}
+        </h6>
+        <h6 v-else class="px-3">
+            {{film.original_name}}
         </h6>
         <h6 class="px-3">
             {{film.original_language}} <lang-flag :iso="film.original_language" />
