@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header @search="assign"/>
-    <Main :results="allResults" :searchValue="searchValue" />
+    <Main :results="allResults" :searchValue="searchValue" :noMovies="noMovies" :noSeries="noSeries"/>
   </div>
 </template>
 
@@ -23,6 +23,8 @@ export default {
       tvResult:[],
       allResults:null,
       query:null,
+      noMovies:null,
+      noSeries:null,
     }
   },
   methods:{
@@ -31,14 +33,19 @@ export default {
             .then((result)=>{
               this.movieResult=result.data.results;
                   console.log(this.movieResult);
-            })
-            .catch(()=>{
-              
+                  if(this.movieResult.length!=0)
+                    this.noMovies=false;
+                  else
+                    this.noMovies=true;
             });
             axios.get('https://api.themoviedb.org/3/search/tv?api_key=78fc62f1828b567ef5fc7ae26f10d923&query='+this.searchValue)
             .then((result)=>{
               this.tvResult=result.data.results;
                   console.log(this.tvResult);
+                  if(this.tvResult.length!=0)
+                    this.noSeries=false;
+                  else
+                    this.noSeries=true;
             });
               this.allResults=[...this.movieResult, ...this.tvResult];
             console.log(this.searchValue+"searchValue")
